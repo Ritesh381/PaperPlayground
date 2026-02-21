@@ -31,7 +31,22 @@ export function renderFrame(frameId, isBacktracking = false) {
     (c) => c.id === state.selectedCharacterId,
   );
   if (selectedChar) {
-    spriteImg.src = selectedChar.avatar;
+    let spriteUrl = selectedChar.avatar;
+
+    // Support for multiple expressions
+    if (selectedChar.expressions) {
+      const mood = (frame.emotion || frame.mood || "normal").toLowerCase();
+      if (selectedChar.expressions[mood]) {
+        spriteUrl = selectedChar.expressions[mood];
+      } else if (frame.options && selectedChar.expressions.thinking) {
+        // Fallback: Use thinking expression if options are present
+        spriteUrl = selectedChar.expressions.thinking;
+      }
+    }
+
+    if (!spriteImg.src.includes(spriteUrl)) {
+      spriteImg.src = spriteUrl;
+    }
     spriteImg.classList.add("active");
   }
 

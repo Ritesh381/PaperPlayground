@@ -66,9 +66,13 @@ async def generate_story_controller(
         user_name=user_name,
     )
 
-    # Save to MongoDB
-    story_dict = story_response.model_dump(exclude_none=True)
-    inserted_id = await save_story_to_db(story_dict)
-    story_response.id = inserted_id
+    # Save to MongoDB (Optional)
+    try:
+        story_dict = story_response.model_dump(exclude_none=True)
+        inserted_id = await save_story_to_db(story_dict)
+        if inserted_id:
+            story_response.id = inserted_id
+    except Exception as e:
+        print(f"Warning: Unexpected error during story save: {e}")
 
     return story_response

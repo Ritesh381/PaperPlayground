@@ -7,7 +7,26 @@ const state = {
       name: "Kaguya Ruka",
       description: "A friendly and knowledgeable guide.",
       tone: "friendly",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kaguya", // Placeholder avatar
+      avatar: "src/assets/character/normal.png",
+      expressions: {
+        normal: "src/assets/character/normal.png",
+        happy: "src/assets/character/happy.png",
+        thinking: "src/assets/character/thinking.png",
+        wrong: "src/assets/character/wrong.png",
+      },
+    },
+    {
+      id: "hana_tutor",
+      name: "Hana",
+      description: "A studious and encouraging upperclassman.",
+      tone: "encouraging",
+      avatar: "src/assets/character/hana/normal.png",
+      expressions: {
+        normal: "src/assets/character/hana/normal.png",
+        happy: "src/assets/character/hana/happy.png",
+        thinking: "src/assets/character/hana/thinking.png",
+        wrong: "src/assets/character/hana/wrong.png",
+      },
     },
   ],
   selectedCharacterId: "default_guide",
