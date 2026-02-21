@@ -1,0 +1,129 @@
+/* Background Selection Styles */
+
+.bg-selection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.category-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 2rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-label::before {
+    content: '';
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(to right, transparent, var(--glass-border));
+}
+
+.category-label::after {
+    content: '';
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(to left, transparent, var(--glass-border));
+}
+
+.bg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.bg-card {
+    aspect-ratio: 16/9;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s var(--ease-out);
+    background: var(--glass-bg);
+}
+
+.bg-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.bg-card:hover img {
+    opacity: 1;
+}
+
+.bg-card.selected {
+    border-color: #ff3b8e;
+    /* Pink highlight from image */
+    box-shadow: 0 0 20px rgba(255, 59, 142, 0.3);
+}
+
+.bg-card.selected img {
+    opacity: 1;
+}
+
+.bg-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+}
+
+.bg-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.selection-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: #ff3b8e;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.bg-card.selected .selection-indicator {
+    display: flex;
+}
+
+.custom-bg-placeholder {
+    grid-column: 1 / -1;
+    height: 200px;
+    border: 2px dashed var(--glass-border);
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.pink-btn {
+    background: #ff3b8e !important;
+    box-shadow: 0 10px 15px -3px rgba(255, 59, 142, 0.3) !important;
+}
+
+.pink-btn:hover {
+    background: #e62e7a !important;
+}
