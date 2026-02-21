@@ -1,6 +1,6 @@
 // Main App Entry
 import state from './utils/state.js';
-import { simulateServerResponse } from './utils/simulation.js';
+import { generateStory } from './utils/api.js';
 import { renderFrame, handleStageClick } from './components/frameEngine.js';
 
 // Section Navigation Utility
@@ -158,8 +158,12 @@ window.startLearning = () => {
     console.log("%c VN Request JSON Ready:", "color: #ff3b8e; font-weight: bold; font-size: 1.2rem;");
     console.log(JSON.stringify(requestObject, null, 2));
     
+    // UI Feedback
     showSection('loading-section');
-    simulateServerResponse((response) => {
+    document.getElementById('loading-spinner').style.display = 'block';
+    document.getElementById('title-screen').style.display = 'none';
+
+    generateStory((response) => {
         state.serverResponse = response;
         
         // Hide spinner and show title screen
@@ -181,8 +185,11 @@ window.startLearning = () => {
 
         document.getElementById('start-story-btn').onclick = () => {
             showSection('story-section');
-            renderFrame('f1');
+            renderFrame(response.frames[0].id); // Use real frame ID from response
         };
+    }, (errMsg) => {
+        alert("Failed to generate story: " + errMsg);
+        showSection('selection-section');
     });
 };
 

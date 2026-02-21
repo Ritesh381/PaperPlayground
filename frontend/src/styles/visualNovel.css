@@ -195,7 +195,7 @@
     height: 80vh;
     background: rgba(20, 20, 25, 0.95);
     backdrop-filter: blur(20px);
-    z-index: 1000;
+    z-index: 10001;
     border-radius: 32px;
     border: 1px solid var(--glass-border);
     padding: 3rem;
