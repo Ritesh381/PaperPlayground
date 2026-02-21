@@ -3,6 +3,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 
 from app.services.session_service import get_and_delete_session
 from app.services.ai_service import generate_story_stream
+from app.services.db_service import save_story_to_db
 from app.models.story import StoryResponse
 
 
@@ -39,6 +40,7 @@ async def stream_story_ws_controller(websocket: WebSocket, session_id: str) -> N
             character=session.character,
             file_content=session.file_content,
             prompt=session.prompt,
+            user_name=session.user_name,
         ):
             accumulated += chunk
             await websocket.send_text(
@@ -53,6 +55,8 @@ async def stream_story_ws_controller(websocket: WebSocket, session_id: str) -> N
     # ── 3. Parse the full accumulated JSON and send the "done" event ──────────
     try:
         story_dict = json.loads(accumulated)
+        inserted_id = await save_story_to_db(story_dict)
+        story_dict["id"] = inserted_id
         story = StoryResponse(**story_dict)
         await websocket.send_text(
             json.dumps({"type": "done", "story": story.model_dump()})

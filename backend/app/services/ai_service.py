@@ -86,7 +86,8 @@ OUTPUT RULES
 
 # ─── Shared helpers ──────────────────────────────────────────────────────────────
 
-def _build_user_message(character: Character, file_content: str, prompt: str) -> str:
+def _build_user_message(character: Character, file_content: str, prompt: str, user_name: str) -> str:
+    user_context = f"\nUser's name: {user_name}" if user_name else ""
     return f"""Character:
 - Name: {character.name}
 - Description: {character.description}
@@ -95,7 +96,7 @@ def _build_user_message(character: Character, file_content: str, prompt: str) ->
 Study Material:
 {file_content}
 
-User's creative direction: {prompt or 'None provided, use your creativity.'}
+User's creative direction: {prompt or 'None provided, use your creativity.'}{user_context}
 
 Generate the interactive visual novel story in the JSON format described."""
 
@@ -115,6 +116,7 @@ async def generate_story(
     character: Character,
     file_content: str,
     prompt: str,
+    user_name: str = "",
 ) -> StoryResponse:
     """
     Non-streaming call to OpenRouter. Used by the REST endpoint.
@@ -125,7 +127,7 @@ async def generate_story(
             detail="OPENROUTER_API_KEY is not configured in the environment."
         )
 
-    user_message = _build_user_message(character, file_content, prompt)
+    user_message = _build_user_message(character, file_content, prompt, user_name)
 
     payload = {
         "model": OPENROUTER_MODEL,
@@ -178,6 +180,7 @@ async def generate_story_stream(
     character: Character,
     file_content: str,
     prompt: str,
+    user_name: str = "",
 ) -> AsyncGenerator[str, None]:
     """
     Async generator that streams raw content token-chunks from OpenRouter.
@@ -195,7 +198,7 @@ async def generate_story_stream(
         "model": OPENROUTER_MODEL,
         "messages": [
             {"role": "system", "content": _SYSTEM_PROMPT},
-            {"role": "user", "content": _build_user_message(character, file_content, prompt)},
+            {"role": "user", "content": _build_user_message(character, file_content, prompt, user_name)},
         ],
         "temperature": 0.8,
         "response_format": {"type": "json_object"},

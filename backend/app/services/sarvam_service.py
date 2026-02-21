@@ -14,7 +14,7 @@ async def stream_voice_from_sarvam(text: str) -> AsyncGenerator[bytes, None]:
     data = {
         "text": text,
         "target_language_code": "en-IN",
-        "speaker": "shruti",
+        "speaker": "simran",
         "model": "bulbul:v3",
         "pace": 1.1,
         "speech_sample_rate": 22050,

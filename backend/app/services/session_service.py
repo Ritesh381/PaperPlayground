@@ -25,6 +25,7 @@ class Session:
     character: Character
     file_content: str
     prompt: str
+    user_name: str
     created_at: float = field(default_factory=time.monotonic)
 
 
@@ -39,12 +40,14 @@ async def create_session(
     character: Character,
     file_content: str,
     prompt: str,
+    user_name: str = "",
 ) -> None:
     async with _lock:
         _store[session_id] = Session(
             character=character,
             file_content=file_content,
             prompt=prompt,
+            user_name=user_name,
         )
 
 

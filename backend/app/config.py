@@ -11,3 +11,6 @@ SARVAM_API_KEY: str = os.getenv("SARVAM_API_KEY", "")
 
 # Max characters extracted from uploaded file to keep prompt size reasonable
 MAX_CONTENT_CHARS: int = 8000
+
+MONGO_URI: str = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+DB_NAME: str = "paper_playground"

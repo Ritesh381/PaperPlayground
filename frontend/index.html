@@ -1,259 +1,528 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PaperPlayground | Immersive AI Stories</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PaperPlayground | Immersive AI Stories</title>
+    <!-- Modular Styles -->
+    <link rel="stylesheet" href="src/styles/base.css" />
+    <link rel="stylesheet" href="src/styles/glass.css" />
+    <link rel="stylesheet" href="src/styles/story.css" />
+    <link rel="stylesheet" href="src/styles/landing.css" />
+    <link rel="stylesheet" href="src/styles/characters.css" />
+    <link rel="stylesheet" href="src/styles/backgrounds.css" />
+    <link rel="stylesheet" href="src/styles/visualNovel.css" />
 
-  <!-- Modular Styles -->
-  <link rel="stylesheet" href="src/styles/base.css">
-  <link rel="stylesheet" href="src/styles/glass.css">
-  <link rel="stylesheet" href="src/styles/story.css">
-  <link rel="stylesheet" href="src/styles/landing.css">
-  <link rel="stylesheet" href="src/styles/characters.css">
-  <link rel="stylesheet" href="src/styles/backgrounds.css">
-  <link rel="stylesheet" href="src/styles/visualNovel.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-</head>
+  <body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
 
-<body>
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
-
-  <main class="container">
-    <!-- Section: Landing -->
-    <section id="landing-section" class="section hero-section">
-      <div class="hero-tagline">Transform Learning</div>
-      <h1 class="hero-title">Your Research, <br>Reimagined as Stories.</h1>
-      <p class="hero-description">
-        Upload any PDF or concept. Our AI synthesizes a guided interactive adventure
-        tailored to your character of choice.
-      </p>
-      <div class="cta-group">
-        <button onclick="enterPlayground()" class="pulse-glow">Start Your Journey</button>
-      </div>
-    </section>
-
-    <!-- Section: Upload -->
-    <section id="upload-section" class="section glass-card">
-      <h1>Upload Material</h1>
-      <p>Ready to turn complex papers into interactive stories? Start here.</p>
-
-      <div class="form-group">
-        <label for="material-file">PDF Document</label>
-        <input type="file" id="material-file" accept=".pdf">
-      </div>
-
-      <div class="form-group">
-        <label for="material-prompt">Learning Goal</label>
-        <textarea id="material-prompt" rows="4"
-          placeholder="What specific concept should the story focus on?"></textarea>
-      </div>
-
-      <button onclick="nextToBackground()">Design Your Guide</button>
-    </section>
-
-    <!-- Section: Select Game Background -->
-    <section id="background-selection-section" class="section glass-card">
-      <div class="bg-selection-header">
-        <h1 style="font-size: 2.5rem;">Select Game Background</h1>
-        <div style="display: flex; gap: 1rem;">
-          <button onclick="simulateUpload()" class="glass-btn"
-            style="padding: 0.5rem 1rem; font-size: 0.8rem; background: #e91e63;">Upload New Background</button>
-          <button onclick="confirmBackground()" class="pink-btn"
-            style="padding: 0.5rem 1rem; font-size: 0.8rem;">Confirm & Start</button>
+    <main class="container">
+      <!-- Section: Landing -->
+      <section id="landing-section" class="section hero-section">
+        <div class="hero-tagline">Transform Learning</div>
+        <h1 class="hero-title">Your Research, <br />Reimagined as Stories.</h1>
+        <p class="hero-description">
+          Upload any PDF or concept. Our AI synthesizes a guided interactive
+          adventure tailored to your character of choice.
+        </p>
+        <div
+          class="cta-group"
+          style="
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <button
+            onclick="enterPlayground()"
+            class="pulse-glow"
+            style="width: 200px"
+          >
+            Start New Story
+          </button>
+          <button
+            onclick="showSection('characters-section')"
+            class="glass-btn"
+            style="width: 200px"
+          >
+            Characters
+          </button>
+          <button
+            onclick="
+              showSection('saves-section');
+              window.renderSaves();
+            "
+            class="glass-btn"
+            style="width: 200px"
+          >
+            Saved Stories
+          </button>
+          <button
+            onclick="showSection('settings-section')"
+            class="glass-btn"
+            style="width: 200px"
+          >
+            Settings
+          </button>
         </div>
-      </div>
-      <p>Choose the environment for your story adventure.</p>
+      </section>
 
-      <div class="category-label">Default Backgrounds</div>
-      <div id="background-grid" class="bg-grid">
-        <!-- Background cards will be injected here -->
-      </div>
+      <!-- Section: Upload -->
+      <section id="upload-section" class="section glass-card">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <h1>Upload Material</h1>
+          <button
+            onclick="showSection('landing-section')"
+            class="glass-btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+          >
+            Home
+          </button>
+        </div>
+        <p>
+          Ready to turn complex papers into interactive stories? Start here.
+        </p>
 
-      <div class="category-label">Custom Backgrounds</div>
-      <div class="custom-bg-placeholder">
-        <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.2;">🖼️</div>
-        <div>No custom backgrounds yet, try uploading one!</div>
-      </div>
+        <div class="form-group">
+          <label for="material-file">PDF Document</label>
+          <input type="file" id="material-file" accept=".pdf" />
+        </div>
 
-      <div style="text-align: left; margin-top: 2rem;">
-        <button onclick="showSection('upload-section')" class="glass-btn"
-          style="padding: 0.8rem 1.5rem; font-size: 1rem;">Back</button>
-      </div>
-    </section>
+        <div class="form-group">
+          <label for="material-prompt">Learning Goal</label>
+          <textarea
+            id="material-prompt"
+            rows="4"
+            placeholder="What specific concept should the story focus on?"
+          ></textarea>
+        </div>
 
-    <!-- Section: Select Partner -->
-    <section id="selection-section" class="section glass-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1>Select Partner</h1>
-        <button onclick="showSection('upload-section')" class="glass-btn"
-          style="padding: 0.5rem 1rem; font-size: 0.8rem;">Back</button>
-      </div>
-      <p>Choose your learning companion or create a new one.</p>
+        <button onclick="nextToBackground()">Design Your Guide</button>
+      </section>
 
-      <div id="character-grid" class="character-grid">
-        <!-- Character cards will be injected here -->
-      </div>
-
-      <div style="text-align: right; margin-top: 2rem;">
-        <button onclick="startLearning()">Assemble Story</button>
-      </div>
-    </section>
-
-    <!-- Section: Create Character -->
-    <section id="create-char-section" class="section glass-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1>Create New Character</h1>
-        <button onclick="showSection('selection-section')" class="glass-btn"
-          style="padding: 0.5rem 1rem; font-size: 0.8rem;">Cancel</button>
-      </div>
-
-      <div class="create-view-content">
-        <div class="create-grid">
-          <div class="form-group">
-            <label>ID (ENGLISH/NUMBERS)</label>
-            <input type="text" id="new-char-id" placeholder="u_ eg. MY_CHAR_01">
+      <!-- Section: Select Game Background -->
+      <section id="background-selection-section" class="section glass-card">
+        <div class="bg-selection-header">
+          <h1 style="font-size: 2.5rem">Select Game Background</h1>
+          <div style="display: flex; gap: 1rem">
+            <button
+              onclick="simulateUpload()"
+              class="glass-btn"
+              style="
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+                background: #e91e63;
+              "
+            >
+              Upload New Background
+            </button>
+            <button
+              onclick="confirmBackground()"
+              class="pink-btn"
+              style="padding: 0.5rem 1rem; font-size: 0.8rem"
+            >
+              Confirm & Start
+            </button>
           </div>
-          <div class="form-group">
-            <label>DISPLAY NAME</label>
-            <input type="text" id="new-char-name" placeholder="eg. Alice">
-          </div>
+        </div>
+        <p>Choose the environment for your story adventure.</p>
 
-          <div class="full-width">
-            <div class="toggle-switch">
-              <span>Share Character Publicly</span>
-              <input type="checkbox" id="public-share" style="width: auto;">
+        <div class="category-label">Default Backgrounds</div>
+        <div id="background-grid" class="bg-grid">
+          <!-- Background cards will be injected here -->
+        </div>
+
+        <div class="category-label">Custom Backgrounds</div>
+        <div class="custom-bg-placeholder">
+          <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.2">
+            🖼️
+          </div>
+          <div>No custom backgrounds yet, try uploading one!</div>
+        </div>
+
+        <div style="text-align: left; margin-top: 2rem">
+          <button
+            onclick="showSection('upload-section')"
+            class="glass-btn"
+            style="padding: 0.8rem 1.5rem; font-size: 1rem"
+          >
+            Back
+          </button>
+        </div>
+      </section>
+
+      <!-- Section: Select Partner -->
+      <section id="selection-section" class="section glass-card">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <h1>Select Partner</h1>
+          <button
+            onclick="showSection('upload-section')"
+            class="glass-btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+          >
+            Back
+          </button>
+        </div>
+        <p>Choose your learning companion or create a new one.</p>
+
+        <div id="character-grid" class="character-grid">
+          <!-- Character cards will be injected here -->
+        </div>
+
+        <div style="text-align: right; margin-top: 2rem">
+          <button onclick="startLearning()">Assemble Story</button>
+        </div>
+      </section>
+
+      <!-- Section: Create Character -->
+      <section id="create-char-section" class="section glass-card">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <h1>Create New Character</h1>
+          <button
+            onclick="showSection('selection-section')"
+            class="glass-btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+          >
+            Cancel
+          </button>
+        </div>
+
+        <div class="create-view-content">
+          <div class="create-grid">
+            <div class="form-group">
+              <label>ID (ENGLISH/NUMBERS)</label>
+              <input
+                type="text"
+                id="new-char-id"
+                placeholder="u_ eg. MY_CHAR_01"
+              />
+            </div>
+            <div class="form-group">
+              <label>DISPLAY NAME</label>
+              <input type="text" id="new-char-name" placeholder="eg. Alice" />
+            </div>
+
+            <div class="full-width">
+              <div class="toggle-switch">
+                <span>Share Character Publicly</span>
+                <input type="checkbox" id="public-share" style="width: auto" />
+              </div>
+            </div>
+
+            <div class="full-width">
+              <div class="upload-zone" id="avatar-upload">
+                <div class="action-icon">📂</div>
+                <div>Click to upload avatar</div>
+                <input
+                  type="file"
+                  id="avatar-input"
+                  style="display: none"
+                  accept="image/*"
+                />
+              </div>
+            </div>
+
+            <div class="full-width form-group">
+              <label>PERSONALITY PROMPT</label>
+              <textarea
+                id="new-char-personality"
+                rows="4"
+                placeholder="Describe the character's personality, tone, and how they act..."
+              ></textarea>
+            </div>
+
+            <div class="full-width">
+              <label>EXPRESSION VARIATIONS (OPTIONAL)</label>
+              <div class="expression-grid">
+                <div class="expression-slot"><span>+</span>ANGRY</div>
+                <div class="expression-slot"><span>+</span>SURPRISED</div>
+                <div class="expression-slot"><span>+</span>THINKING</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: right; margin-top: 2rem">
+          <button onclick="saveNewCharacter()">Create Character</button>
+        </div>
+      </section>
+
+      <!-- Section: Character Gallery -->
+      <section id="characters-section" class="section glass-card">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <h1>Your Characters</h1>
+          <button
+            onclick="showSection('landing-section')"
+            class="glass-btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+          >
+            Home
+          </button>
+        </div>
+        <p>View all available characters or create new ones.</p>
+
+        <div id="character-gallery-grid" class="character-grid">
+          <!-- Characters injected here -->
+        </div>
+      </section>
+
+      <!-- Section: Saved Stories -->
+      <section id="saves-section" class="section glass-card">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <h1>Saved Stories</h1>
+          <button
+            onclick="showSection('landing-section')"
+            class="glass-btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+          >
+            Home
+          </button>
+        </div>
+        <p>Your previously generated adventures.</p>
+
+        <div
+          id="saves-container"
+          style="display: flex; flex-direction: column; gap: 1rem"
+        >
+          <!-- Saves injected here -->
+        </div>
+      </section>
+
+      <!-- Section: Settings -->
+      <section id="settings-section" class="section glass-card">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <h1>Settings</h1>
+          <button
+            onclick="showSection('landing-section')"
+            class="glass-btn"
+            style="padding: 0.5rem 1rem; font-size: 0.8rem"
+          >
+            Home
+          </button>
+        </div>
+        <p>Configure your experience.</p>
+
+        <div class="form-group" style="margin-top: 2rem">
+          <label>Your Name</label>
+          <input
+            type="text"
+            id="settings-username"
+            placeholder="How should characters address you?"
+          />
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem">
+          <button onclick="saveSettings()">Save Settings</button>
+          <button
+            onclick="
+              localStorage.clear();
+              alert('Data cleared! Reloading...');
+              location.reload();
+            "
+            class="glass-btn"
+            style="border-color: #ff3b8e; color: #ff3b8e"
+          >
+            Clear All Data
+          </button>
+        </div>
+      </section>
+
+      <!-- Section: Loading -->
+      <section id="loading-section" class="section glass-card">
+        <div id="loading-spinner" style="text-align: center; padding: 3rem 0">
+          <div
+            class="speaker-avatar"
+            style="
+              margin: 0 auto 2rem;
+              width: 64px;
+              height: 64px;
+              animation: pulse 2s infinite;
+            "
+          >
+            P
+          </div>
+          <h1>Synthesizing Story...</h1>
+          <p>Analyzing material and preparing the interactive frames.</p>
+        </div>
+        <div id="title-screen" class="vn-title-screen">
+          <div class="vn-title-content">
+            <div class="new-chapter-tag">NEW CHAPTER</div>
+            <h1 id="story-title">Story Title</h1>
+            <div class="vn-summary-wrapper">
+              <p id="story-summary">Summary content goes here.</p>
+            </div>
+            <button id="start-story-btn" class="pulse-glow">
+              Begin the Experience
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Story Experience (Visual Novel Stage) -->
+      <section id="story-section" class="section vn-stage">
+        <div id="vn-background" class="vn-background"></div>
+
+        <div class="vn-character-container">
+          <img id="vn-sprite" class="vn-sprite" src="" alt="Character" />
+        </div>
+
+        <!-- Stage Overlays (Options, etc) -->
+        <div id="vn-options-overlay" class="vn-options-overlay">
+          <!-- Choices injected here -->
+        </div>
+
+        <!-- VN UI Controls -->
+        <div id="vn-ui" class="vn-ui-container">
+          <div
+            id="vn-dialogue-box"
+            class="vn-dialogue-box"
+            onclick="handleStageClick()"
+          >
+            <div id="vn-speaker" class="vn-speaker-tag">Speaker</div>
+            <div id="vn-text" class="vn-text">
+              Dialogue text goes here...<span class="cursor"></span>
+            </div>
+
+            <div
+              id="vn-click-indicator"
+              style="
+                position: absolute;
+                bottom: 20px;
+                right: 30px;
+                font-size: 1.5rem;
+                opacity: 0.5;
+              "
+            >
+              ▶
             </div>
           </div>
 
-          <div class="full-width">
-            <div class="upload-zone" id="avatar-upload">
-              <div class="action-icon">📂</div>
-              <div>Click to upload avatar</div>
-              <input type="file" id="avatar-input" style="display: none;" accept="image/*">
-            </div>
-          </div>
-
-          <div class="full-width form-group">
-            <label>PERSONALITY PROMPT</label>
-            <textarea id="new-char-personality" rows="4"
-              placeholder="Describe the character's personality, tone, and how they act..."></textarea>
-          </div>
-
-          <div class="full-width">
-            <label>EXPRESSION VARIATIONS (OPTIONAL)</label>
-            <div class="expression-grid">
-              <div class="expression-slot"><span>+</span>ANGRY</div>
-              <div class="expression-slot"><span>+</span>SURPRISED</div>
-              <div class="expression-slot"><span>+</span>THINKING</div>
-            </div>
+          <div class="vn-controls">
+            <button class="vn-btn" onclick="goBack()">
+              <span style="font-size: 1.2rem">⟲</span> Back
+            </button>
+            <button id="auto-btn" class="vn-btn" onclick="toggleAuto()">
+              <span style="font-size: 1rem">▶</span> Auto
+            </button>
+            <button class="vn-btn" onclick="showLog()">
+              <span style="font-size: 1.1rem">☰</span> Log
+            </button>
           </div>
         </div>
-      </div>
 
-      <div style="text-align: right; margin-top: 2rem;">
-        <button onclick="saveNewCharacter()">Create Character</button>
-      </div>
-    </section>
-
-    <!-- Section: Loading -->
-    <section id="loading-section" class="section glass-card">
-      <div id="loading-spinner" style="text-align: center; padding: 3rem 0;">
-        <div class="speaker-avatar"
-          style="margin: 0 auto 2rem; width: 64px; height: 64px; animation: pulse 2s infinite;">P</div>
-        <h1>Synthesizing Story...</h1>
-        <p>Analyzing material and preparing the interactive frames.</p>
-      </div>
-      <div id="title-screen" class="vn-title-screen">
-        <div class="vn-title-content">
-          <div class="new-chapter-tag">NEW CHAPTER</div>
-          <h1 id="story-title">Story Title</h1>
-          <div class="vn-summary-wrapper">
-            <p id="story-summary">Summary content goes here.</p>
+        <!-- Top Right Actions -->
+        <div class="vn-top-controls">
+          <div class="vn-icon-btn" onclick="alert('Settings coming soon!')">
+            ⚙️
           </div>
-          <button id="start-story-btn" class="pulse-glow">Begin the Experience</button>
+          <div class="vn-icon-btn" id="bgm-toggle-btn" onclick="toggleBGM()">
+            🔊
+          </div>
+          <div class="vn-icon-btn" onclick="location.reload()">🔄</div>
+        </div>
+      </section>
+
+      <!-- Global Log Overlay -->
+      <div id="vn-log-overlay" class="vn-log-overlay">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+          "
+        >
+          <h1 style="font-size: 2rem; margin: 0">Conversation Log</h1>
+          <button
+            onclick="hideLog()"
+            class="glass-btn"
+            style="padding: 0.5rem 1rem"
+          >
+            Close
+          </button>
+        </div>
+        <div id="vn-log-content" class="vn-log-content">
+          <!-- Log entries injected here -->
         </div>
       </div>
-    </section>
+    </main>
 
-    <!-- Section: Story Experience (Visual Novel Stage) -->
-    <section id="story-section" class="section vn-stage">
-      <div id="vn-background" class="vn-background"></div>
+    <style>
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+        }
 
-      <div class="vn-character-container">
-        <img id="vn-sprite" class="vn-sprite" src="" alt="Character">
-      </div>
+        70% {
+          transform: scale(1.05);
+          box-shadow: 0 0 0 20px rgba(99, 102, 241, 0);
+        }
 
-      <!-- Stage Overlays (Options, etc) -->
-      <div id="vn-options-overlay" class="vn-options-overlay">
-        <!-- Choices injected here -->
-      </div>
-
-      <!-- VN UI Controls -->
-      <div id="vn-ui" class="vn-ui-container">
-        <div id="vn-dialogue-box" class="vn-dialogue-box" onclick="handleStageClick()">
-          <div id="vn-speaker" class="vn-speaker-tag">Speaker</div>
-          <div id="vn-text" class="vn-text">Dialogue text goes here...<span class="cursor"></span></div>
-
-          <div id="vn-click-indicator"
-            style="position: absolute; bottom: 20px; right: 30px; font-size: 1.5rem; opacity: 0.5;">▶</div>
-        </div>
-
-        <div class="vn-controls">
-          <button class="vn-btn" onclick="goBack()"><span style="font-size: 1.2rem;">⟲</span> Back</button>
-          <button id="auto-btn" class="vn-btn" onclick="toggleAuto()"><span style="font-size: 1rem;">▶</span>
-            Auto</button>
-          <button class="vn-btn" onclick="showLog()"><span style="font-size: 1.1rem;">☰</span> Log</button>
-        </div>
-      </div>
-
-      <!-- Top Right Actions -->
-      <div class="vn-top-controls">
-        <div class="vn-icon-btn" onclick="alert('Settings coming soon!')">⚙️</div>
-        <div class="vn-icon-btn" onclick="alert('Sound toggled!')">🔊</div>
-        <div class="vn-icon-btn" onclick="location.reload()">🔄</div>
-      </div>
-    </section>
-
-    <!-- Global Log Overlay -->
-    <div id="vn-log-overlay" class="vn-log-overlay">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <h1 style="font-size: 2rem; margin: 0;">Conversation Log</h1>
-        <button onclick="hideLog()" class="glass-btn" style="padding: 0.5rem 1rem;">Close</button>
-      </div>
-      <div id="vn-log-content" class="vn-log-content">
-        <!-- Log entries injected here -->
-      </div>
-    </div>
-  </main>
-
-  <style>
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+        }
       }
+    </style>
 
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 20px rgba(99, 102, 241, 0);
-      }
+    <!-- Main Entry Module -->
+    <script type="module" src="src/main.js"></script>
 
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
-      }
-    }
-  </style>
-
-  <!-- Main Entry Module -->
-  <script type="module" src="src/main.js"></script>
-</body>
-
+    <audio id="bgm-audio" src="assets/bgm.mp3" loop></audio>
+  </body>
 </html>

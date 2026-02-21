@@ -58,6 +58,7 @@ class Frame(BaseModel):
 
 
 class StoryResponse(BaseModel):
+    id: Optional[str] = None
     title: str
     summary: str
     frames: List[Frame]
