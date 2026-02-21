@@ -1,0 +1,50 @@
+/* Landing Page Styles */
+.hero-section {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.hero-tagline {
+    font-size: 1.2rem;
+    color: #818cf8;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.hero-description {
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    font-size: 1.25rem;
+}
+
+.cta-group {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.pulse-glow {
+    animation: pulse 2s infinite;
+}
