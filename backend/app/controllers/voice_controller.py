@@ -1,11 +1,11 @@
 import json
 from fastapi import WebSocket, WebSocketDisconnect
-from app.services.murf_service import stream_voice_from_murf
+from app.services.sarvam_service import stream_voice_from_sarvam
 
 async def stream_voice_ws_controller(websocket: WebSocket) -> None:
     """
     WebSocket controller for streaming voice.
-    Receives text from the client, calls Murf AI, and streams back MP3 bytes.
+    Receives text from the client, calls Sarvam AI, and streams back MP3 bytes.
     """
     await websocket.accept()
     
@@ -26,7 +26,7 @@ async def stream_voice_ws_controller(websocket: WebSocket) -> None:
                     continue
                     
                 # Stream audio back (binary frames)
-                async for chunk in stream_voice_from_murf(text):
+                async for chunk in stream_voice_from_sarvam(text):
                     await websocket.send_bytes(chunk)
                     
             except Exception as e:

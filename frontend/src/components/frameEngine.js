@@ -73,7 +73,7 @@ export function renderFrame(frameId, isBacktracking = false) {
   // Add to Log
   addToLog(frame.speaker, frame.text);
 
-  // Play Voice using Murf AI WebSockets
+  // Play Voice using Sarvam AI WebSockets
   if (frame.text) {
     voiceEngine.speak(frame.text);
   }

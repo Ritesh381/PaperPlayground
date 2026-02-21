@@ -27,7 +27,7 @@ async def voice_stream_websocket(websocket: WebSocket):
     """
     **WS /api/v1/voice/stream**
 
-    Connect to this endpoint to stream text-to-speech audio via Murf AI.
+    Connect to this endpoint to stream text-to-speech audio via Sarvam AI.
     - Send text (or JSON `{"text": "..."}`)
     - Receive binary MP3 audio frames and `{"type": "error", "error": "..."}` on failure.
     """
