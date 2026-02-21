@@ -1,6 +1,7 @@
 from fastapi import APIRouter, WebSocket
 
 from app.controllers.ws_controller import stream_story_ws_controller
+from app.controllers.voice_controller import stream_voice_ws_controller
 
 router = APIRouter(tags=["WebSocket"])
 
@@ -19,3 +20,15 @@ async def story_stream_websocket(websocket: WebSocket, session_id: str):
     - `{"type": "error",  "detail": "..."}`   — on failure
     """
     await stream_story_ws_controller(websocket, session_id)
+
+
+@router.websocket("/voice/stream")
+async def voice_stream_websocket(websocket: WebSocket):
+    """
+    **WS /api/v1/voice/stream**
+
+    Connect to this endpoint to stream text-to-speech audio via Murf AI.
+    - Send text (or JSON `{"text": "..."}`)
+    - Receive binary MP3 audio frames and `{"type": "error", "error": "..."}` on failure.
+    """
+    await stream_voice_ws_controller(websocket)
