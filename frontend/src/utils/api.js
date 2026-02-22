@@ -1,8 +1,42 @@
 // API Service Utility
 import state from "./state.js";
 
-// const BASE_URL = import.meta.env.BASE_URL;
-const BASE_URL = "https://paperplayground.onrender.com/api/v1";
+// Get BASE_URL from injected config or default
+export const BASE_URL =
+  window.APP_CONFIG && window.APP_CONFIG.BASE_URL
+    ? window.APP_CONFIG.BASE_URL
+    : "http://localhost:8000/api/v1";
+
+/**
+ * Saves a character to backend.
+ */
+export async function saveCharacterAPI(characterData) {
+  const response = await fetch(`${BASE_URL}/character`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(characterData),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to save character to DB");
+  }
+  return response.json();
+}
+
+/**
+ * Fetches multiple characters by IDs.
+ */
+export async function fetchCharactersByIdsAPI(ids) {
+  if (!ids || ids.length === 0) return [];
+  const response = await fetch(`${BASE_URL}/character/batch`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(ids),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch characters from DB");
+  }
+  return response.json();
+}
 
 /**
  * Generates a story using the blocking /generate endpoint.

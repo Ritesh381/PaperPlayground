@@ -1,3 +1,5 @@
+import { BASE_URL } from "./api.js";
+
 export class VoiceStreamEngine {
   constructor() {
     this.ws = null;
@@ -28,9 +30,8 @@ export class VoiceStreamEngine {
   }
 
   connect() {
-    const protocol = "wss:";
-    const host = "paperplayground.onrender.com";
-    this.ws = new WebSocket(`${protocol}//${host}/api/v1/voice/stream`);
+    const wsUrl = BASE_URL.replace(/^http/, "ws");
+    this.ws = new WebSocket(`${wsUrl}/voice/stream`);
     this.ws.binaryType = "arraybuffer";
 
     this.ws.onopen = () => {

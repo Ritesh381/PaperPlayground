@@ -1,6 +1,11 @@
 // Main App Entry
 import state from "./utils/state.js";
-import { generateStory } from "./utils/api.js";
+import {
+  BASE_URL,
+  generateStory,
+  saveCharacterAPI,
+  fetchCharactersByIdsAPI,
+} from "./utils/api.js";
 import { renderFrame, handleStageClick } from "./components/frameEngine.js";
 
 // Section Navigation Utility
@@ -114,42 +119,68 @@ window.simulateUpload = () => {
   alert("Background upload feature simulation triggered!");
 };
 
-window.saveNewCharacter = () => {
-  const id = document.getElementById("new-char-id").value || `u_${Date.now()}`;
+window.saveNewCharacter = async () => {
   const name = document.getElementById("new-char-name").value;
   const personality = document.getElementById("new-char-personality").value;
+  const isPrivate = document.getElementById("public-share")
+    ? !document.getElementById("public-share").checked
+    : true;
 
   if (!name) {
     alert("Please enter a display name.");
     return;
   }
 
-  const newChar = {
-    id: id,
+  const charPayload = {
     name: name,
     description: personality,
     tone: "custom",
     avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
+    isPrivate: isPrivate,
   };
 
-  state.characters.push(newChar);
-  state.selectedCharacterId = id;
+  const finishSave = async (payload) => {
+    try {
+      const resp = await saveCharacterAPI(payload);
+      const newChar = { ...payload, id: resp.id };
 
-  const customChars = state.characters.filter((c) => c.id !== "default_guide");
-  localStorage.setItem("custom_characters", JSON.stringify(customChars));
+      state.characters.push(newChar);
+      state.customCharacterIds.push(newChar.id);
+      state.selectedCharacterId = newChar.id;
 
-  const prevSection = document.querySelector(".section.active").id;
-  if (prevSection === "create-char-section") {
-    const fromGallery = state.view === "gallery";
-    showSection(fromGallery ? "characters-section" : "selection-section");
-    if (fromGallery) {
-      window.renderCharacterGallery();
-    } else {
-      window.renderCharacterSelection();
+      localStorage.setItem(
+        "custom_characters",
+        JSON.stringify(state.customCharacterIds),
+      );
+
+      const prevSection = document.querySelector(".section.active").id;
+      if (prevSection === "create-char-section") {
+        const fromGallery = state.view === "gallery";
+        showSection(fromGallery ? "characters-section" : "selection-section");
+        if (fromGallery) {
+          window.renderCharacterGallery();
+        } else {
+          window.renderCharacterSelection();
+        }
+      } else {
+        showSection("selection-section");
+        window.renderCharacterSelection();
+      }
+    } catch (e) {
+      alert("Failed to save character to backend: " + e.message);
     }
+  };
+
+  const avatarInput = document.getElementById("avatar-input");
+  if (avatarInput && avatarInput.files && avatarInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      charPayload.avatar = e.target.result;
+      finishSave(charPayload);
+    };
+    reader.readAsDataURL(avatarInput.files[0]);
   } else {
-    showSection("selection-section");
-    window.renderCharacterSelection();
+    finishSave(charPayload);
   }
 };
 
@@ -345,9 +376,7 @@ window.renderSaves = () => {
         // Fallback for old local-storage complete saves vs new ID-only saves
         let loadedStory = save.story;
         if (!loadedStory && save.id) {
-          const res = await fetch(
-            `https://paperplayground.onrender.com/api/v1/story/${save.id}`,
-          );
+          const res = await fetch(`${BASE_URL}/story/${save.id}`);
           if (!res.ok) throw new Error("Could not load story from server.");
           loadedStory = await res.json();
         }
@@ -376,8 +405,45 @@ window.renderSaves = () => {
 };
 
 // Initialization
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // Start at landing page
   showSection("landing-section");
   document.getElementById("settings-username").value = state.userName;
+
+  // Load custom characters from backend if we have IDs
+  if (state.customCharacterIds && state.customCharacterIds.length > 0) {
+    // Some old localStorage might have stored objects, gracefully extract ID if so
+    const safeIds = state.customCharacterIds
+      .map((c) => (typeof c === "object" ? c.id : c))
+      .filter(Boolean);
+    try {
+      if (safeIds.length > 0) {
+        const fetchedChars = await fetchCharactersByIdsAPI(safeIds);
+        // Merge to state
+        for (const char of fetchedChars) {
+          if (!state.characters.find((c) => c.id === char.id)) {
+            state.characters.push(char);
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Failed to fetch custom characters from backend", e);
+    }
+    // Update local storage format to ensure it's specifically safe string IDs
+    localStorage.setItem("custom_characters", JSON.stringify(safeIds));
+    state.customCharacterIds = safeIds;
+  }
+
+  // Avatar upload hook
+  const avatarUpload = document.getElementById("avatar-upload");
+  const avatarInput = document.getElementById("avatar-input");
+  if (avatarUpload && avatarInput) {
+    avatarUpload.addEventListener("click", () => avatarInput.click());
+    avatarInput.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        avatarUpload.innerHTML =
+          '<div class="action-icon">✅</div><div>Image Selected</div>';
+      }
+    });
+  }
 });

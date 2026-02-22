@@ -75,15 +75,16 @@ const state = {
   })(),
 };
 
-// Try to load custom characters
+// Custom characters loading is now managed asynchronously in main.js
+// but we initialize an empty state so it doesn't break synchronous logic.
+state.customCharacterIds = [];
 try {
-  const savedChars = JSON.parse(localStorage.getItem("custom_characters"));
-  if (savedChars && Array.isArray(savedChars)) {
-    // Merge with defaults
-    state.characters = [...state.characters, ...savedChars];
+  const savedIds = JSON.parse(localStorage.getItem("custom_characters"));
+  if (savedIds && Array.isArray(savedIds)) {
+    state.customCharacterIds = savedIds;
   }
 } catch (e) {
-  console.error("Failed to load characters:", e);
+  console.error("Failed to load character IDs:", e);
 }
 
 export default state;

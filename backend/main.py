@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.story_router import router as story_router
 from app.routers.ws_router import router as ws_router
+from app.routers.character_router import router as character_router
 
 app = FastAPI(
     title="Paper Playground API",
@@ -22,6 +23,7 @@ app.add_middleware(
 # Register routers
 app.include_router(story_router, prefix="/api/v1")
 app.include_router(ws_router, prefix="/api/v1")
+app.include_router(character_router, prefix="/api/v1")
 
 
 @app.get("/", tags=["Health"])
