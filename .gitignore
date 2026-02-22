@@ -19,3 +19,4 @@ coverage/
 *.cache
 venv/
 __pycache__/
+*.pem
