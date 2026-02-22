@@ -32,7 +32,7 @@ export class VoiceStreamEngine {
     // default to localhost:8000 for backend
     const host =
       window.location.hostname === "localhost"
-        ? "localhost:8000"
+        ? "paperplayground.onrender.com"
         : window.location.host;
     this.ws = new WebSocket(`${protocol}//${host}/api/v1/voice/stream`);
     this.ws.binaryType = "arraybuffer";

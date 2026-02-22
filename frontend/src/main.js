@@ -346,7 +346,7 @@ window.renderSaves = () => {
         let loadedStory = save.story;
         if (!loadedStory && save.id) {
           const res = await fetch(
-            `http://localhost:8000/api/v1/story/${save.id}`,
+            `https://paperplayground.onrender.com/api/v1/story/${save.id}`,
           );
           if (!res.ok) throw new Error("Could not load story from server.");
           loadedStory = await res.json();
