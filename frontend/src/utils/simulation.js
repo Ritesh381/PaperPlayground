@@ -10,21 +10,21 @@ export function simulateServerResponse(onComplete) {
                 "id": "f1",
                 "speaker": state.character.name || "Wise Professor",
                 "text": `Welcome, young scholar! My name is ${state.character.name || "the Professor"}. I've been studying the quantum realm for decades, and today, you're joining me. Are you ready?`,
-                "emotion": "excited",
+                "emotion": "normal",
                 "nextFrameId": "f2"
             },
             {
                 "id": "f2",
                 "speaker": state.character.name || "Wise Professor",
                 "text": "Look at this beam of light. To a casual observer, it's just a glow. But look closer. It behaves as a wave, rippling through space...",
-                "emotion": "serious",
+                "emotion": "normal",
                 "nextFrameId": "f3"
             },
             {
                 "id": "f3",
                 "speaker": state.character.name || "Wise Professor",
                 "text": "...yet, it also acts like a stream of particles, hitting sensors like tiny bullets. This is 'Wave-Particle Duality'. Based on this, how would you describe light?",
-                "emotion": "curious",
+                "emotion": "thinking",
                 "options": [
                     { "text": "A continuous wave", "nextFrameId": "f4" },
                     { "text": "A stream of particles", "nextFrameId": "f4" },
@@ -36,7 +36,7 @@ export function simulateServerResponse(onComplete) {
                 "id": "f4",
                 "speaker": state.character.name || "Wise Professor",
                 "text": "That's only half the story! The beauty of quantum mechanics is that it doesn't have to be one or the other. It's truly both.",
-                "emotion": "thoughtful",
+                "emotion": "wrong",
                 "nextFrameId": "f2"
             },
             {
