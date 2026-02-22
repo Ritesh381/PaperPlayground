@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "mkdir -p dist && cp index.html dist/ && cp -r src dist/ && cp -r assets dist/ 2>/dev/null || true",
-    "dev": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build": "mkdir -p dist && cp index.html dist/ && cp -r src dist/ && cp -r assets dist/ 2>/dev/null || true && echo \"window.APP_CONFIG = { BASE_URL: \\\"${VITE_API_URL:-https://paperplayground.onrender.com/api/v1}\\\" };\" > dist/config.js",
+    "dev": "nodemon dev-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
